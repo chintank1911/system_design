@@ -1,0 +1,85 @@
+CRAWLERS
+
+What is Web Crawler ?
+crawls through web pages and extracts the data
+
+
+Why ?
+
+1. Search Engine
+2. Training ML models
+..
+
+
+Design Question Types - 
+
+1) Product Design
+
+- Uber
+- Instagram
+
+2) Infrastructure Design
+
+- Crawler
+- Rate Limiting
+- LB
+
+
+REQUIREMENTS
+
+ 1) FUNCTIONAL REQUIREMENTS
+
+ - Crawl the entire web starting from some seed urls - (URL discovery) in 7 days
+ - Extract text data and store
+ - Legal Compliance - Politeness 
+
+ v2
+ - Copyright
+
+2) NON FUNCTIONAL REQUIREMENTS
+  - Fault Tolerant
+  - Efficiency
+  - Scalability
+
+
+SCALE ESTIMATE / BOE CALCULATIONS
+
+Pages = 10 billion 
+Page Size = 100 KB 
+
+Storage = 1 PB 
+
+QPS = 10 biilion - 7 days
+1 second = 1.5 biilion / 10^5 =  = 2 X 10 ^9 / 10 ^5 = 2 X 10^4 pages per second
+ = 20000 pages per second
+
+
+API / System Inteface
+
+input - seed urls
+output - Text Data extracted from Web pages
+
+
+DATABASE
+
+1. S3 for main web page storage
+
+2. Metadata table - 
+
+id url s3link depth  date_crawled  hash 
+
+
+Simhash algorithm - for finding close copy 
+
+
+DESIGN DISCUSSIONS / DIAGRAMS
+
+Components
+CRAWLER - FRONTIER - DBs- DNS
+
+1) Add DNS Cache, Robots.txt cache
+
+2) Split Crawler Monolith into - Downloader(fetch and download web page) + Parser(extract embedded links) connected via Queue like SQS
+
+3) Add Dead Letter Queue to the Frontier
+

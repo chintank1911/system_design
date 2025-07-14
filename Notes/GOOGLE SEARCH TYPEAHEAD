@@ -1,0 +1,240 @@
+GOOGLE SEARCH TYPEAHEAD
+
+
+REQUIREMENTS
+
+ FR
+ 1. type ahead suggestions 
+   - how many ? 5 suggestions
+   - which suggestions ? - most popular suggestions
+   - search history ? 
+   - no special characters, no typing mistakes
+   - strict prefix match 
+   - minimum characters - 1 
+   - recency factor 
+   - personalization x
+   - max characters - 10 
+
+
+ NFR
+ 1. Availability over Consistency (CAP)
+ 2. Low Latency - competing with typing 
+
+ 3. Disaster Recovery - Relication factor, Hot standby,  
+ 4. Security - Security at Rest (KMS) , Security in Transit (HTTPS/ TLS)
+
+
+SCALE
+
+10 billion searches per day - (10 % new search terms)
+
+1 search - 6 autocomplete API
+
+10 billion search - 60 billion typeaheads/day
+
+QPS - 60 * 10 ^ 9 / 10 ^5  = 60 * 10 ^4 QPS = 0.6 million = 600k /second
+
+
+r - roger federe, rafael nadal, ronaldo 
+ro - roger federer, ...
+ron - 
+rona
+ronal
+ronald PRESS ENTER
+
+ronrhjgt 
+
+Write QPS -  
+
+10 billion searches per day
+10 % new - 1 billion new terms
+
+
+1 billion new search - 10 ^ 9 / 10 ^ 5 = 10^ 4 WPS 10k second
+
+ronrhgt - [.....]
+
+
+QPS - (Read/ Write) - Deployment
+
+STORAGE - Cost
+Base Storage = 1500 TB
+
+= 10^9 x 365 X 5 X  100 bytes  = (10 ^ 9) * 15 x 10 ^ 2 x 10 ^2 Bytes =  10 ^ 13  X 15 = 0.15 X 10 ^ 15 = 0.15 PB = 150 TB
+
+term     top5results
+
+r         roger federer, ronaldo, rafael nadal ..
+
+ro          ........
+
+
+TERM              FREQUENCY
+
+roger federe       100 miilion
+
+SHARDING - Yes or No
+
+
+API
+
+getTypeAheadSuggestion(prefixTerm) - public
+
+createTermSuggestion(term) - channel   
+
+updateTermFrequency(term) - channel "How to paas system design interview" 50 * 10 ^ 6
+
+
+
+
+how to p .. 
+
+How to paas system design interview
+How to paas upsc exam
+...
+
+
+
+
+
+
+
+
+DATA MODELLING/ DATABASES
+
+
+FREQUENCY DB
+
+term               frequency
+
+india olympics     100 biilion
+
+olympics           10 million
+
+___________________
+
+
+SUGGESTIONS DB
+
+term      suggestions
+
+i          [india : 4545, india vs nz ; 65445, india olympics: 54654]
+in         [india , indian, ....]
+
+how man    [how many .., ,]
+
+database choice = key value schema = Dynamo + Redis
+
+i 
+in
+ind
+..
+
+india olympics  675768
+
+READ WRITES 
+
+
+DESIGN DISCUSSIONS AND DIAGRAM
+
+
+in-in    india, india vs nz
+
+in-usa   incorporated, indiana
+
+READ- WRITE PROBLEM
+
+1) Cache for reads
+
+2) Read Replicas
+
+3) Threshold update
+
+- update suggestions DB only when a certain threshold is achieved
+
+56 57 58 59  100  200 100 
+
+
+indian olympics
+
+
+i 
+
+in 
+
+ind
+
+
+..
+
+indian olympics
+
+ 
+4) Sampling
+
+randomly selecting some writes to frequency DB to also update suggestions DB
+
+
+
+RECENCY BIAS IN SUGGESTIONS
+
+
+mi
+
+term                freq
+MIT                  100
+michael jordan       500
+
+
+term                freq
+MIT                  100000
+michael jordan       600
+
+
+term                freq
+MIT                  50005
+michael jordan       400
+
+term                freq
+MIT                  25003
+michael jordan       400
+
+term                freq
+MIT                  100005
+michael jordan       700
+
+
+TDF built into frequency db
+
+TDF - 2 24 hrs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

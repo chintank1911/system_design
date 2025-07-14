@@ -1,0 +1,129 @@
+GOOGLE SEARCH
+
+1) REQUIREMENTS
+
+
+1.1) - FR 
+1. Text Based Search - v1
+2. Recency Bias - v1
+3. Language Support - v1
+4. Autocomplete - v2 - Sampling, /complete/search
+
+
+1.2) - NFR
+1. Low Latency
+2. High Availability - CAP theorem
+3. Disaster Recovery - multi-zone availability , Quick TAT, Replication
+4. Security - Transit - (HTTPS - TLS/SSL) / Rest (Encryption - KMS )
+
+
+2) SCALE
+
+
+2.1) QPS 
+
+DAU - 10^7
+Avg Query - 10
+QPS - (Dau * Avg) / 10 ^5 (86400) = 10^3
+Growth - 10^4 QPS 
+
+
+2.2) STORAGE
+
+per row - 
+1 MB
+
+100 Bytes
+
+1 KB
+
+number of rows - 
+500k * 1000 
+
+
+
+5 * 10^6 rows * 1 KB per row = 500 GB
+
+
+
+3) APIs
+
+GET /search?q=india&start=0
+
+GET /search?q=india+cricket&start=10
+
+GET /search?q=election+results&start=10
+
+q=karnataka+election+results
+
+q=the+results+of+election
+
+API server = root word reduction
+
+
+
+4) DATABASE / DATA MODELLING
+
+term 100 bytes   url 500 Bytes   page_score 8 bytes    position 
+
+India  india.com/FAQ              15                      7
+
+India  india.com/FAQ              15                      54
+
+India  wikipedia.org/india        10
+
+...  ..                           11
+
+
+Cricket  india.com/FAQ  15                               9
+
+...  
+
+
+SHARDING - 
+
+SHARDING KEY - 
+
+Range Based Sharding - A - D    E- M   ...
+Use first character as SK  I - shard  
+Hashing - query term
+Location Based - India , US , Australia
+
+
+Big Table - 
+
+
+
+schema, sharding (yes), cardinailty, federated databases
+
+
+5) DESIGN DISCUSSIONS / DIAGRAM -
+
+
+CRAWLING - STORAGE - REVERSE INDEXING - ROOT WORD ( running , ran, ---> run) --> stemming + lemmetization
+
+
+google is a company dedicate to providing the best 
+
+<hre = google..
+
+
+term 100 bytes   url 500 Bytes                                    page_score 8 bytes    position 
+
+google           https://www.google.com/i4ntl/am/gmail/about/       10                    1
+
+company         https://www.google.com/intl/am/gmail/about/         2                    4
+
+
+
+   
+
+
+
+
+
+
+
+
+
+

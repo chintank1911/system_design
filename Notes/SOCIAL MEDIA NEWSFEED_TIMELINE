@@ -1,0 +1,105 @@
+SOCIAL MEDIA NEWSFEED/TIMELINE
+
+Social Media
+- Newsfeed
+- Messenger
+- IMages - CDN, HAshtags, Trending
+
+
+Booking Systems
+- IRCTC
+- Book My Show
+- Uber
+
+
+Design Facebook, Twitter, LInked IN
+
+
+REQUIREMENTS 
+
+- FR
+1) Users an create posts
+2) Users can follow other users
+3) Users can see a newsfeed/timeline --> recent post by users we follow in last 7 days
+
+v2
+4) Comments , Likes, Dislikes, Reactions
+5) Messages/Chating
+
+- NFR
+1) High Availability Eventual Consistency
+2) Low Latency
+
+
+SCALE / BOE CALCULATIONS
+1) Metrics - QPS - Read / Write ( Ready heavy or Write Heavy ? Read Heavy)
+2) Storage 
+
+DAU = 1 billion
+
+Rqps /Wqps / Storage (1 day, 5 years)
+wQPS = 10 ^ 4 QPS ((posters x posts per day) / 10 ^5)
+
+rQPS = 20 X 10^4 (assuming 1: 20) = wQPS X 20 = rQPS
+
+
+
+Storage = 100 million X 1 post X 1 KB = 100 X 10^6 X 10^3 = 100 GB perday
+(Post size, Active user posting will are overestimated)
+
+
+
+posts_table
+
+user_id     text                path_to_attachment    
+ 34     "Welcome to India"      s3/Haystack/CDN link
+
+1 KB per post
+
+
+APIS
+
+1) POST /post/create
+
+2) POST /user/{id}/follow
+
+3) GET /feed - Graph DB used to get followed people and their fetch their posts (FAN OUT PROBLEM)
+
+
+DATABASE
+
+
+post
+
+user_id     text                path_to_attachment    
+ 34     "Welcome to India"      s3/Haystack/CDN link
+
+
+followers
+
+user follower/follows(whatever serves your use case)
+
+34    75
+34    
+
+
+select * from posts where user_id in ([1,3,76,.....])
+
+1, 34, 67 - shard 1
+
+
+2, 6, 76 - shard 3
+
+45, 3, 90 - shard 7
+
+
+20 - [1,3,76,.....]
+
+
+DIAGRAM / DESIGN DISCUSSIONS
+
+
+1 machine (with read replicas) handle all data generated in 7 days ? - yes 
+
+
+

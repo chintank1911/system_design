@@ -1,0 +1,98 @@
+SYSTEM DESIGN CONCEPTS
+
+
+
+FUNDAMENTAL TOPICS
+
+Client Server Architecture
+
+
+DNS
+browser cache --> miss --> DNS (ISP)  - ICANN
+
+
+Load Balancer - HOt standby
+- balances load
+- mantains health (healtchecks) ? 
+- Push - Heartbeat 
+- Pull model - LB  
+- Rate Limiting
+- Ddos attack
+
+
+API Gateway
+- redirect to correct service
+- 
+
+
+Databases
+- SQL , NoSQL
+- SQL - Structured, Related, , ACID Transactions - Highly Consistency 
+- NoSQL - Unstructured - Document DB (Mongo DB, Couchbase), Graph DB (Neo4j), Images & Videos, Columnar DB (Cassandra), Key Value (Redis, Dynamo DB), Ledgers (??) , Timeseries DB (Influx DB stock markets), Text Search (Elastic Search, Lucene)
+High Availability
+
+
+Caches -
+In memory cache - guava cache
+Server Level Cache - 
+Browser Cache
+Cache to buffer reads from DB
+CDN - Streaming, Static  - Akamai, Cloudfront, 
+
+Cache Miss, Cache Hit, Type - Write Back, Write Around, Write Through
+
+
+Advanced Topics
+
+High AVailability
+- Abstract or Measure
+
+5 9s or above
+99.9999
+99.999 - 6 minutes
+99.99
+..
+99 - 80 
+
+
+High Consistency
+
+consensus - Paxos
+leader election
+
+Transactionally Consistent
+
+Eventual Consistency - 
+
+Dirty Reads temporarily
+
+
+
+Popular Theorems
+
+CAP Theorem
+
+PACELC Theorem
+
+If Partition Availability or Consistency  Else Latency or Consistency
+
+if partition:
+  chose between availabilty or consistency - (CAP)
+else:
+  chose between latency or consistency  - Low Latency/ Eventual Consistency vs High Latency/High(er)  Consistency 
+
+FLP Impossibility Theorem
+
+
+CASE STUDY BLOOM FILTER
+
+probabilistic data structure to check memebership
+
+if bloom filter says - NOT PRESENT - 100 % guaranteed
+
+PRESENT - may or may not be 
+
+
+
+
+
